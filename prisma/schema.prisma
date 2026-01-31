@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/prisma/generated"
+  moduleFormat = "cjs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum OrderStatus {
+  PAID
+  CANCELLED
+}
+
+model User {
+  id        String @id @default(uuid())
+  email     String? @unique
+  password  String?
+  roles     String[] @default(["user"])
+  isActive  Boolean @default(true)
+  orders    Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Concert {
+  id          String @id @default(uuid())
+  name        String
+  venue       String
+  eventDate   DateTime
+  totalSeats  Int
+
+  seats       Seat[]
+  orders      Order[]
+
+  createdAt   DateTime @default(now())
+}
+
+model Seat {
+  id          String @id @default(uuid())
+  concertId   String
+  section     String
+  row         String
+  number      Int
+
+  concert     Concert @relation(fields: [concertId], references: [id])
+  orderItem   OrderItem?
+
+  @@unique([concertId, section, row, number])
+}
+
+
+
+model Order {
+  id        String @id @default(uuid())
+  userId    String
+  concertId String
+  status    OrderStatus
+  total     Decimal
+
+  user User @relation(fields: [userId], references: [id])
+  concert Concert @relation(fields: [concertId], references: [id])
+  items     OrderItem[]
+  payment   Payment?
+
+  createdAt DateTime @default(now())
+  
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  seatId    String @unique
+  price     Decimal
+
+  order Order @relation(fields: [orderId], references: [id])
+  seat Seat @relation(fields: [seatId], references: [id])
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  orderId   String   @unique
+  provider  String
+  status    String
+
+  order     Order   @relation(fields: [orderId], references: [id])
+
+  createdAt DateTime @default(now())
+}
