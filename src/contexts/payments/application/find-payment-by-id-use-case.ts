@@ -1,4 +1,4 @@
-import { Injectable } from "@/contexts/common/Injectable";
+import { Injectable } from "@/common/Injectable";
 import { NotFoundException } from "@nestjs/common";
 import { PaymentRepository } from "../domain/payment.repository";
 import { FindPaymentByIdDto } from "./find-payment-by-id.dto";
