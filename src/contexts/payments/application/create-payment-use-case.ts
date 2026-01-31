@@ -1,4 +1,4 @@
-import { Injectable } from '@/contexts/common/Injectable';
+import { Injectable } from '@/common/Injectable';
 import { PaymentRepository } from '@/contexts/payments/domain/payment.repository'
 import { Payment } from '@/contexts/payments/domain/payment'
 import { CreatePaymentDto } from './create-payment-use-case.dto';
