@@ -4,12 +4,14 @@ import { RedisQueueRepositoryAdapter } from './redis/redis-queue.repository';
 import { QueueController } from './controllers/queue.controller';
 import { QueueRepository } from '../domain/queue.repository';
 import { JoinQueueUseCase } from '../application/join-queue.use-case/join-queue.use-case';
+import { GrantAccessUseCase } from '../application/grant-access-use-case/grant-access-use-case';
 
 @Module({
     controllers: [QueueController],
     providers: [
         RedisQueueRepositoryAdapter,
         JoinQueueUseCase,
+        GrantAccessUseCase,
         {
             provide: QueueRepository,
             useExisting: RedisQueueRepositoryAdapter,
