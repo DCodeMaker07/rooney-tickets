@@ -44,6 +44,15 @@ export class RedisQueueRepositoryAdapter implements QueueRepository {
         await this.redis.expire(key, ttlSeconds);
     }
 
+    async isActive(queueName: string, userId: string): Promise<boolean> {
+        
+        const key = `active:${queueName}`;
+
+        return await this.redis.sismember(key, userId) === 1;
+        
+        
+    }
+
     private queueKey(concertId: string) {
         return `queue:concert:${concertId}`;
     }
