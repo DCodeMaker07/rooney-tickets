@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { PaymentModule } from './contexts/payments/infrastructure/payment.module';
+import { QueueModule } from './contexts/queue/infrastructure/queue.module';
 
 @Module({
   imports: [
-    PaymentModule
+    PaymentModule,
+    QueueModule,
   ],
   controllers: [],
   providers: [],
