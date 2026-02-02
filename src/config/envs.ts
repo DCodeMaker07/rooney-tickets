@@ -3,10 +3,12 @@ import 'dotenv/config';
 import * as joi from 'joi';
 
 interface EnvVars {
-    PORT:           number;
-    NODE_ENV:       string;
-    DATABASE_URL:   string;
-    REDIS_URL:      string;
+    PORT:               number;
+    NODE_ENV:           string;
+    DATABASE_URL:       string;
+    REDIS_URL:          string;
+    STRIPE_SECRET_KEY:  string;
+    STRIPE_PUBLIC_KEY:  string;
 }
 
 const envsSchema = joi.object({
@@ -14,6 +16,8 @@ const envsSchema = joi.object({
     DATABASE_URL: joi.string().required(),
     NODE_ENV: joi.string().required(),
     REDIS_URL: joi.string().required(),
+    STRIPE_SECRET_KEY: joi.string().required(),
+    STRIPE_PUBLIC_KEY: joi.string().required(),
 })
 .unknown(true)
 
@@ -30,4 +34,6 @@ export const envs = {
     nodeEnv: envVars.NODE_ENV,
     databaseUrl: envVars.DATABASE_URL,
     redisUrl: envVars.REDIS_URL,
+    stripeSecretKey: envVars.STRIPE_SECRET_KEY,
+    stripePublicKey: envVars.STRIPE_PUBLIC_KEY,
 }
