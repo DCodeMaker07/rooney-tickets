@@ -15,8 +15,27 @@ datasource db {
 }
 
 enum OrderStatus {
+  PENDING
   PAID
   CANCELLED
+}
+
+enum PaymentProvider {
+  STRIPE
+  PAYPAL
+  // YAPE
+  // MERCADO_PAGO
+}
+
+enum PaymentStatus {
+  PENDING
+  REQUIRES_ACTION
+  PROCESSING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+  REFUNDED
+  PARTIALLY_REFUNDED
 }
 
 model User {
@@ -72,6 +91,7 @@ model Order {
   payment   Payment?
 
   createdAt DateTime @default(now())
+  paidAt    DateTime?
   
 }
 
@@ -86,12 +106,23 @@ model OrderItem {
 }
 
 model Payment {
-  id        String   @id @default(uuid())
-  orderId   String   @unique
-  provider  String
-  status    String
+  id              String          @id @default(uuid())
+  orderId         String          @unique
+  provider        PaymentProvider
+  externalId      String          @unique
+  status          PaymentStatus   @default(PENDING)
+  amount          Decimal
+  currency        String          @default("USD")
+  paymentMethod   String?         // "card", "paypal", "paypal_credit", etc.
+  last4           String?         // últimos 4 dígitos (card) o email PayPal si aplica
+  receiptUrl      String?
+  metadata        Json?           // datos extras (Stripe metadata, PayPal custom fields)
+  failureReason   String?         // "card_declined", "insufficient_funds", etc.
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
 
-  order     Order   @relation(fields: [orderId], references: [id])
+  order           Order           @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
-  createdAt DateTime @default(now())
+  @@index([externalId])
+  @@index([status])
 }
