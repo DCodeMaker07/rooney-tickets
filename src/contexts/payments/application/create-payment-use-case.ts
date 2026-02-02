@@ -1,24 +1,26 @@
 import { Injectable } from '@/common/Injectable';
-import { PaymentRepository } from '@/contexts/payments/domain/payment.repository'
-import { Payment } from '@/contexts/payments/domain/payment'
-import { CreatePaymentDto } from './create-payment-use-case.dto';
-import { PrimitivePayment } from '../domain/payment';
+import { PaymentRepository } from '../domain/payment.repository';
+import { CreatePaymentInput } from './create-payment-input';
+import { Payment } from '../domain/payment';
 
 @Injectable()
 export class CreatePaymentUseCase {
 
     constructor(
-        private readonly repository: PaymentRepository
+        private readonly PaymentRepository: PaymentRepository,
     ) { }
 
-    async execute(dto: CreatePaymentDto): Promise<{ payment: PrimitivePayment }> {
-        const payment = Payment.create(dto);
+    async execute(input: CreatePaymentInput) {
+        const payment = new Payment(
+            input.orderId,
+            input.provider,
+            input.externalId,
+            'PENDING',
+            input.amount,
+            input.currency ?? 'USD',
+        );
 
-        await this.repository.create(payment);
-
-        return {
-            payment: payment.toValue()
-        }
+        return this.PaymentRepository.create(payment);
     }
 
 }

@@ -1,32 +1,32 @@
-import { v4 as uuid } from 'uuid';
+export type PaymentProvider = 'STRIPE' | 'PAYPAL';
 
-export interface PrimitivePayment {
-    id: string;
-    amount: number;
-    customerId: string;
-}
+export type PaymentStatus = 'PENDING' | 'REQUIRES_ACTION' | 'PROCESSING' | 'SUCCEEDED' | 'FAILED' | 'CANCELLED' | 'REFUNDED' | 'PARTIALLY_REFUNDED';
 
 export class Payment {
-    constructor(
-        private attributes: PrimitivePayment
-    ) { }
+  constructor(
+    public readonly orderId: string,
+    public readonly provider: PaymentProvider,
+    public readonly externalId: string,
+    public status: PaymentStatus,
+    public readonly amount: number,
+    public readonly currency: string,
+    public readonly id?: string,
+    public paymentMethod?: string,
+    public last4?: string,
+    public receiptUrl?: string,
+    public metadata?: any,
+    public failureReason?: string,
+    public readonly createdAt?: Date,
+    public readonly updatedAt?: Date,
+  ) {}
 
-    static create(createPayment: {
-        amount: number;
-        customerId: string;
-    }) {
-        return new Payment({
-            id: uuid(),
-            amount: createPayment.amount,
-            customerId: createPayment.customerId
-        });
-    }
+  succeed(receiptUrl?: string) {
+    this.status = 'SUCCEEDED';
+    this.receiptUrl = receiptUrl;
+  }
 
-    toValue(): PrimitivePayment {
-        return {
-            id: this.attributes.id,
-            amount: this.attributes.amount,
-            customerId: this.attributes.customerId
-        }
-    }
+  fail(reason: string) {
+    this.status = 'FAILED';
+    this.failureReason = reason;
+  }
 }
