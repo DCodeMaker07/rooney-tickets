@@ -18,7 +18,40 @@ export class Payment {
     public failureReason?: string,
     public readonly createdAt?: Date,
     public readonly updatedAt?: Date,
-  ) {}
+  ) { }
+
+  public static entityToPayment(input: {
+    id: string;
+    status: PaymentStatus;
+    createdAt: Date;
+    provider: PaymentProvider;
+    externalId: string;
+    amount: number;
+    currency: string;
+    paymentMethod: string | null;
+    last4: string | null;
+    receiptUrl: string | null;
+    metadata: string | null;
+    failureReason: string | null;
+    updatedAt: Date;
+    orderId: string;
+  }) {
+    return new Payment(
+      input.orderId,
+      input.provider,
+      input.externalId,
+      input.status,
+      input.amount,
+      input.currency,
+      input.id,
+      input.paymentMethod!,
+      input.last4!,
+      input.receiptUrl!,
+      input.metadata!,
+      input.failureReason ?? '',
+      input.createdAt, input.updatedAt
+    );
+  }
 
   succeed(receiptUrl?: string) {
     this.status = 'SUCCEEDED';
