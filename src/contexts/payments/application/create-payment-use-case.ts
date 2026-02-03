@@ -1,6 +1,7 @@
 import { Injectable } from '@/common/Injectable';
+import { OrderCreatedEvent } from '@/contexts/orders/domain/order.event';
+import { OnEvent } from '@nestjs/event-emitter';
 import { PaymentRepository } from '../domain/payment.repository';
-import { CreatePaymentInput } from './create-payment-input';
 import { Payment } from '../domain/payment';
 
 @Injectable()
@@ -10,11 +11,12 @@ export class CreatePaymentUseCase {
         private readonly PaymentRepository: PaymentRepository,
     ) { }
 
-    async execute(input: CreatePaymentInput): Promise<Payment> {
+    @OnEvent('order.created')
+    async execute(input: OrderCreatedEvent): Promise<Payment> {
         const payment = new Payment(
             input.orderId,
             input.provider,
-            input.externalId,
+            input.externalId ?? '',
             'PENDING',
             input.amount,
             input.currency ?? 'USD',
