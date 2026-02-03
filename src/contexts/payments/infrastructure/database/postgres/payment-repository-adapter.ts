@@ -2,6 +2,7 @@ import { Injectable } from "@/common/Injectable";
 import { Payment } from "@/contexts/payments/domain/payment";
 import { PaymentRepository } from "@/contexts/payments/domain/payment.repository";
 import { PrismaService } from "@/prisma/prisma.service";
+import { NotFoundException } from "@nestjs/common";
 
 @Injectable()
 export class PaymentRepositoryAdapter implements PaymentRepository {
@@ -24,7 +25,11 @@ export class PaymentRepositoryAdapter implements PaymentRepository {
             }
         });
 
-        return created as Payment;
+        return Payment.entityToPayment({
+            ...created,
+            amount: parseFloat(`${created.amount}`),
+            metadata: `${created.metadata}`,
+        });
 
     }
     async update(payment: Payment): Promise<void> {
@@ -41,8 +46,16 @@ export class PaymentRepositoryAdapter implements PaymentRepository {
         });
     }
     async findByOrderId(orderId: string): Promise<Payment | null> {
-        return this.prisma.payment.findUnique({
+        const payment = await this.prisma.payment.findUnique({
             where: { id: orderId }
+        })
+
+        if (!payment) throw new NotFoundException(`payment with orderId [${orderId}] not found`);
+
+        return Payment.entityToPayment({
+            ...payment,
+            amount: parseFloat(`${payment.amount}`),
+            metadata: `${payment.metadata}`,
         })
     }
     async findByExternalId(externalId: string): Promise<Payment | null> {
@@ -50,7 +63,13 @@ export class PaymentRepositoryAdapter implements PaymentRepository {
             where: { externalId }
         })
 
-        return paymentDB;
+        if (!paymentDB) throw new NotFoundException(`Payment with externalId [${externalId}] not found`);
+
+        return Payment.entityToPayment({
+            ...paymentDB,
+            amount: parseFloat(`${paymentDB.amount}`),
+            metadata: `${paymentDB.metadata}`,
+        });
     }
 
 }
