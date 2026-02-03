@@ -1,17 +1,19 @@
 import { Module } from "@nestjs/common";
+import { PrismaService } from "@/prisma/prisma.service";
 import { PaymentController } from "./controller/payment-controller";
 import { CreatePaymentUseCase } from "../application/create-payment-use-case";
-import { InMemoryPaymentRepository } from "./database/in-memory/in-memory-repository";
 import { PaymentRepository } from "../domain/payment.repository";
+import { PaymentRepositoryAdapter } from "./database/postgres/payment-repository-adapter";
 
 @Module({
     controllers: [PaymentController],
     providers: [
+        PrismaService,
         CreatePaymentUseCase,
-        InMemoryPaymentRepository,
+        PaymentRepositoryAdapter,
         {
             provide: PaymentRepository,
-            useExisting: InMemoryPaymentRepository,
+            useExisting: PaymentRepositoryAdapter,
         },
     ],
     exports: []
