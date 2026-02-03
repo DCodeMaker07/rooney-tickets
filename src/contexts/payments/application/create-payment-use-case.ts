@@ -10,7 +10,7 @@ export class CreatePaymentUseCase {
         private readonly PaymentRepository: PaymentRepository,
     ) { }
 
-    async execute(input: CreatePaymentInput) {
+    async execute(input: CreatePaymentInput): Promise<Payment> {
         const payment = new Payment(
             input.orderId,
             input.provider,
