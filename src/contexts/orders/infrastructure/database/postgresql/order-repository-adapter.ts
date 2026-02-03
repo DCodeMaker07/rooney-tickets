@@ -17,11 +17,13 @@ export class OrderRepositoryAdapter implements OrderRepository {
                 concertId: order.concertId,
                 status: order.status,
                 total: order.amount,
-                paidAt: new Date(),
             }
         });
         
-        return created;
+        return Order.entityToOrder({
+            ...created,
+            total: parseInt(`${created.total}`)
+        });
     }
     async update(order: Order): Promise<void> {
         throw new Error("Method not implemented.");

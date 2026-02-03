@@ -12,7 +12,7 @@ export class Order {
         public paidAt?: Date,
     ) { }
 
-    public static toOrder(input: {
+    public static entityToOrder(input: {
         id: string;
         status: OrderStatus;
         total: number;
