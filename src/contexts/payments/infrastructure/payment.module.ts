@@ -14,6 +14,6 @@ import { PaymentRepository } from "../domain/payment.repository";
             useExisting: InMemoryPaymentRepository,
         },
     ],
-    exports: [ CreatePaymentUseCase ]
+    exports: []
 })
 export class PaymentModule { }
