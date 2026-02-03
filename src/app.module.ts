@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PaymentModule } from './contexts/payments/infrastructure/payment.module';
 import { QueueModule } from './contexts/queue/infrastructure/queue.module';
+import { OrdersModule } from './contexts/orders/orders.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { QueueModule } from './contexts/queue/infrastructure/queue.module';
       verboseMemoryLeak: true,  // for debugging
       ignoreErrors: false,
     }),
+    OrdersModule,
     PaymentModule,
     QueueModule,
   ],
