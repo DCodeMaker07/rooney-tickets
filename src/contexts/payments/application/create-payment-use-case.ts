@@ -1,18 +1,23 @@
 import { Injectable } from '@/common/Injectable';
 import { OrderCreatedEvent } from '@/contexts/orders/domain/order.event';
 import { OnEvent } from '@nestjs/event-emitter';
-import { PaymentRepository } from '../domain/payment.repository';
-import { Payment } from '../domain/payment';
+import { Payment, PaymentGateway, PaymentRepository } from '../domain';
 
 @Injectable()
 export class CreatePaymentUseCase {
 
     constructor(
         private readonly PaymentRepository: PaymentRepository,
+        private readonly paymentGateway: PaymentGateway,
     ) { }
 
     @OnEvent('order.created')
     async execute(input: OrderCreatedEvent): Promise<Payment> {
+
+        // Create paymentIntent in payment external service
+        const intent = await this.paymentGateway.createPayment({ amount: input.amount, orderId: input.orderId });
+
+        // Persist payment
         const payment = new Payment(
             input.orderId,
             input.provider,
