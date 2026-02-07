@@ -17,7 +17,7 @@ export class CreateOrderUseCase {
 
         const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-        const order = new Order(input.userId, input.concertId, input.amount, 'PENDING', expiresAt);
+        const order = new Order(input.userId, input.concertId, input.amount, 'PENDING', input.items, expiresAt);
 
         const createdOrder = await this.orderRepository.create(order);
 
