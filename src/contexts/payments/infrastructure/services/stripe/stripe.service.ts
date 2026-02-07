@@ -11,6 +11,10 @@ export class StripeService {
         this.stripe = new Stripe(envs.stripeSecretKey);
     }
 
+    getStripe() {
+        return this.stripe;
+    }
+
     createPaymentIntent(amount: number, orderId: string) {
         return this.stripe.paymentIntents.create({
             amount,

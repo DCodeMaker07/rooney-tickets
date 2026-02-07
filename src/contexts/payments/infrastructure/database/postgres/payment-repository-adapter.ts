@@ -37,14 +37,17 @@ export class PaymentRepositoryAdapter implements PaymentRepository {
             where: { id: payment.id },
             data: {
                 status: payment.status,
-                receiptUrl: payment.receiptUrl,
-                failureReason: payment.failureReason,
+                externalId: payment.externalId,
                 paymentMethod: payment.paymentMethod,
-                last4: payment.last4,
-                metadata: payment.metadata,
+                provider: payment.provider,
+                receiptUrl: payment.receiptUrl ?? '',
+                failureReason: payment.failureReason ?? '',
+                last4: payment.last4 ?? '',
+                metadata: payment.metadata ?? '',
             }
         });
     }
+
     async findByOrderId(orderId: string): Promise<Payment | null> {
         const payment = await this.prisma.payment.findUnique({
             where: { id: orderId }
