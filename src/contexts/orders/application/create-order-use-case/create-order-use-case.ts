@@ -3,7 +3,7 @@ import { EventEmitter2 } from "@nestjs/event-emitter";
 import { OrderRepository } from "../../domain/order.repository";
 import { CreateOrderInput } from "./create-order-input";
 import { Order } from "../../domain/order";
-import { OrderCreatedEvent } from "../../domain/order.event";
+import { OrderCreatedEvent } from "../../domain/order-event";
 
 @Injectable()
 export class CreateOrderUseCase {
@@ -21,7 +21,15 @@ export class CreateOrderUseCase {
 
         const createdOrder = await this.orderRepository.create(order);
 
-        this.eventEmitter.emit('order.created', new OrderCreatedEvent(createdOrder.id!, createdOrder.amount, 'STRIPE', 'test', 'USD'));
+        const event: OrderCreatedEvent = {
+            amount: createdOrder.amount,
+            orderId: createdOrder.id!,
+            provider: 'STRIPE',
+            currency: 'USD',
+            externalId: 'test',
+        }
+
+        this.eventEmitter.emit('order.created', event);
 
         return createdOrder;
 
