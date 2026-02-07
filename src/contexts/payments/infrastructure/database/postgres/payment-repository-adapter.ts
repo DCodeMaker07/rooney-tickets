@@ -1,6 +1,6 @@
 import { Injectable } from "@/common/Injectable";
 import { Payment } from "@/contexts/payments/domain/payment";
-import { PaymentRepository } from "@/contexts/payments/domain/payment.repository";
+import { PaymentRepository } from "@/contexts/payments/domain/payment-repository-port";
 import { PrismaService } from "@/prisma/prisma.service";
 import { NotFoundException } from "@nestjs/common";
 
