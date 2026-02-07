@@ -18,6 +18,15 @@ export const OrderStatus = {
 export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
 
 
+export const SeatType = {
+  VIP: 'VIP',
+  GENERAL: 'GENERAL',
+  PLATEA: 'PLATEA'
+} as const
+
+export type SeatType = (typeof SeatType)[keyof typeof SeatType]
+
+
 export const PaymentProvider = {
   STRIPE: 'STRIPE',
   PAYPAL: 'PAYPAL'

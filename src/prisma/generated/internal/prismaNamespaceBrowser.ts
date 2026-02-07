@@ -105,7 +105,9 @@ export const SeatScalarFieldEnum = {
   concertId: 'concertId',
   section: 'section',
   row: 'row',
-  number: 'number'
+  number: 'number',
+  type: 'type',
+  price: 'price'
 } as const
 
 export type SeatScalarFieldEnum = (typeof SeatScalarFieldEnum)[keyof typeof SeatScalarFieldEnum]

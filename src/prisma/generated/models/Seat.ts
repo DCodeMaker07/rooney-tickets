@@ -28,10 +28,12 @@ export type AggregateSeat = {
 
 export type SeatAvgAggregateOutputType = {
   number: number | null
+  price: number | null
 }
 
 export type SeatSumAggregateOutputType = {
   number: number | null
+  price: number | null
 }
 
 export type SeatMinAggregateOutputType = {
@@ -40,6 +42,8 @@ export type SeatMinAggregateOutputType = {
   section: string | null
   row: string | null
   number: number | null
+  type: $Enums.SeatType | null
+  price: number | null
 }
 
 export type SeatMaxAggregateOutputType = {
@@ -48,6 +52,8 @@ export type SeatMaxAggregateOutputType = {
   section: string | null
   row: string | null
   number: number | null
+  type: $Enums.SeatType | null
+  price: number | null
 }
 
 export type SeatCountAggregateOutputType = {
@@ -56,16 +62,20 @@ export type SeatCountAggregateOutputType = {
   section: number
   row: number
   number: number
+  type: number
+  price: number
   _all: number
 }
 
 
 export type SeatAvgAggregateInputType = {
   number?: true
+  price?: true
 }
 
 export type SeatSumAggregateInputType = {
   number?: true
+  price?: true
 }
 
 export type SeatMinAggregateInputType = {
@@ -74,6 +84,8 @@ export type SeatMinAggregateInputType = {
   section?: true
   row?: true
   number?: true
+  type?: true
+  price?: true
 }
 
 export type SeatMaxAggregateInputType = {
@@ -82,6 +94,8 @@ export type SeatMaxAggregateInputType = {
   section?: true
   row?: true
   number?: true
+  type?: true
+  price?: true
 }
 
 export type SeatCountAggregateInputType = {
@@ -90,6 +104,8 @@ export type SeatCountAggregateInputType = {
   section?: true
   row?: true
   number?: true
+  type?: true
+  price?: true
   _all?: true
 }
 
@@ -185,6 +201,8 @@ export type SeatGroupByOutputType = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
   _count: SeatCountAggregateOutputType | null
   _avg: SeatAvgAggregateOutputType | null
   _sum: SeatSumAggregateOutputType | null
@@ -216,6 +234,8 @@ export type SeatWhereInput = {
   section?: Prisma.StringFilter<"Seat"> | string
   row?: Prisma.StringFilter<"Seat"> | string
   number?: Prisma.IntFilter<"Seat"> | number
+  type?: Prisma.EnumSeatTypeFilter<"Seat"> | $Enums.SeatType
+  price?: Prisma.FloatFilter<"Seat"> | number
   concert?: Prisma.XOR<Prisma.ConcertScalarRelationFilter, Prisma.ConcertWhereInput>
   orderItem?: Prisma.XOR<Prisma.OrderItemNullableScalarRelationFilter, Prisma.OrderItemWhereInput> | null
 }
@@ -226,6 +246,8 @@ export type SeatOrderByWithRelationInput = {
   section?: Prisma.SortOrder
   row?: Prisma.SortOrder
   number?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   concert?: Prisma.ConcertOrderByWithRelationInput
   orderItem?: Prisma.OrderItemOrderByWithRelationInput
 }
@@ -240,6 +262,8 @@ export type SeatWhereUniqueInput = Prisma.AtLeast<{
   section?: Prisma.StringFilter<"Seat"> | string
   row?: Prisma.StringFilter<"Seat"> | string
   number?: Prisma.IntFilter<"Seat"> | number
+  type?: Prisma.EnumSeatTypeFilter<"Seat"> | $Enums.SeatType
+  price?: Prisma.FloatFilter<"Seat"> | number
   concert?: Prisma.XOR<Prisma.ConcertScalarRelationFilter, Prisma.ConcertWhereInput>
   orderItem?: Prisma.XOR<Prisma.OrderItemNullableScalarRelationFilter, Prisma.OrderItemWhereInput> | null
 }, "id" | "concertId_section_row_number">
@@ -250,6 +274,8 @@ export type SeatOrderByWithAggregationInput = {
   section?: Prisma.SortOrder
   row?: Prisma.SortOrder
   number?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   _count?: Prisma.SeatCountOrderByAggregateInput
   _avg?: Prisma.SeatAvgOrderByAggregateInput
   _max?: Prisma.SeatMaxOrderByAggregateInput
@@ -266,6 +292,8 @@ export type SeatScalarWhereWithAggregatesInput = {
   section?: Prisma.StringWithAggregatesFilter<"Seat"> | string
   row?: Prisma.StringWithAggregatesFilter<"Seat"> | string
   number?: Prisma.IntWithAggregatesFilter<"Seat"> | number
+  type?: Prisma.EnumSeatTypeWithAggregatesFilter<"Seat"> | $Enums.SeatType
+  price?: Prisma.FloatWithAggregatesFilter<"Seat"> | number
 }
 
 export type SeatCreateInput = {
@@ -273,6 +301,8 @@ export type SeatCreateInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
   concert: Prisma.ConcertCreateNestedOneWithoutSeatsInput
   orderItem?: Prisma.OrderItemCreateNestedOneWithoutSeatInput
 }
@@ -283,6 +313,8 @@ export type SeatUncheckedCreateInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
   orderItem?: Prisma.OrderItemUncheckedCreateNestedOneWithoutSeatInput
 }
 
@@ -291,6 +323,8 @@ export type SeatUpdateInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   concert?: Prisma.ConcertUpdateOneRequiredWithoutSeatsNestedInput
   orderItem?: Prisma.OrderItemUpdateOneWithoutSeatNestedInput
 }
@@ -301,6 +335,8 @@ export type SeatUncheckedUpdateInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   orderItem?: Prisma.OrderItemUncheckedUpdateOneWithoutSeatNestedInput
 }
 
@@ -310,6 +346,8 @@ export type SeatCreateManyInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
 }
 
 export type SeatUpdateManyMutationInput = {
@@ -317,6 +355,8 @@ export type SeatUpdateManyMutationInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type SeatUncheckedUpdateManyInput = {
@@ -325,6 +365,8 @@ export type SeatUncheckedUpdateManyInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type SeatListRelationFilter = {
@@ -350,10 +392,13 @@ export type SeatCountOrderByAggregateInput = {
   section?: Prisma.SortOrder
   row?: Prisma.SortOrder
   number?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatAvgOrderByAggregateInput = {
   number?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatMaxOrderByAggregateInput = {
@@ -362,6 +407,8 @@ export type SeatMaxOrderByAggregateInput = {
   section?: Prisma.SortOrder
   row?: Prisma.SortOrder
   number?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatMinOrderByAggregateInput = {
@@ -370,10 +417,13 @@ export type SeatMinOrderByAggregateInput = {
   section?: Prisma.SortOrder
   row?: Prisma.SortOrder
   number?: Prisma.SortOrder
+  type?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatSumOrderByAggregateInput = {
   number?: Prisma.SortOrder
+  price?: Prisma.SortOrder
 }
 
 export type SeatScalarRelationFilter = {
@@ -423,6 +473,18 @@ export type SeatUncheckedUpdateManyWithoutConcertNestedInput = {
   deleteMany?: Prisma.SeatScalarWhereInput | Prisma.SeatScalarWhereInput[]
 }
 
+export type EnumSeatTypeFieldUpdateOperationsInput = {
+  set?: $Enums.SeatType
+}
+
+export type FloatFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type SeatCreateNestedOneWithoutOrderItemInput = {
   create?: Prisma.XOR<Prisma.SeatCreateWithoutOrderItemInput, Prisma.SeatUncheckedCreateWithoutOrderItemInput>
   connectOrCreate?: Prisma.SeatCreateOrConnectWithoutOrderItemInput
@@ -442,6 +504,8 @@ export type SeatCreateWithoutConcertInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
   orderItem?: Prisma.OrderItemCreateNestedOneWithoutSeatInput
 }
 
@@ -450,6 +514,8 @@ export type SeatUncheckedCreateWithoutConcertInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
   orderItem?: Prisma.OrderItemUncheckedCreateNestedOneWithoutSeatInput
 }
 
@@ -488,6 +554,8 @@ export type SeatScalarWhereInput = {
   section?: Prisma.StringFilter<"Seat"> | string
   row?: Prisma.StringFilter<"Seat"> | string
   number?: Prisma.IntFilter<"Seat"> | number
+  type?: Prisma.EnumSeatTypeFilter<"Seat"> | $Enums.SeatType
+  price?: Prisma.FloatFilter<"Seat"> | number
 }
 
 export type SeatCreateWithoutOrderItemInput = {
@@ -495,6 +563,8 @@ export type SeatCreateWithoutOrderItemInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
   concert: Prisma.ConcertCreateNestedOneWithoutSeatsInput
 }
 
@@ -504,6 +574,8 @@ export type SeatUncheckedCreateWithoutOrderItemInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
 }
 
 export type SeatCreateOrConnectWithoutOrderItemInput = {
@@ -527,6 +599,8 @@ export type SeatUpdateWithoutOrderItemInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   concert?: Prisma.ConcertUpdateOneRequiredWithoutSeatsNestedInput
 }
 
@@ -536,6 +610,8 @@ export type SeatUncheckedUpdateWithoutOrderItemInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 export type SeatCreateManyConcertInput = {
@@ -543,6 +619,8 @@ export type SeatCreateManyConcertInput = {
   section: string
   row: string
   number: number
+  type: $Enums.SeatType
+  price: number
 }
 
 export type SeatUpdateWithoutConcertInput = {
@@ -550,6 +628,8 @@ export type SeatUpdateWithoutConcertInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   orderItem?: Prisma.OrderItemUpdateOneWithoutSeatNestedInput
 }
 
@@ -558,6 +638,8 @@ export type SeatUncheckedUpdateWithoutConcertInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
   orderItem?: Prisma.OrderItemUncheckedUpdateOneWithoutSeatNestedInput
 }
 
@@ -566,6 +648,8 @@ export type SeatUncheckedUpdateManyWithoutConcertInput = {
   section?: Prisma.StringFieldUpdateOperationsInput | string
   row?: Prisma.StringFieldUpdateOperationsInput | string
   number?: Prisma.IntFieldUpdateOperationsInput | number
+  type?: Prisma.EnumSeatTypeFieldUpdateOperationsInput | $Enums.SeatType
+  price?: Prisma.FloatFieldUpdateOperationsInput | number
 }
 
 
@@ -576,6 +660,8 @@ export type SeatSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   section?: boolean
   row?: boolean
   number?: boolean
+  type?: boolean
+  price?: boolean
   concert?: boolean | Prisma.ConcertDefaultArgs<ExtArgs>
   orderItem?: boolean | Prisma.Seat$orderItemArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
@@ -586,6 +672,8 @@ export type SeatSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   section?: boolean
   row?: boolean
   number?: boolean
+  type?: boolean
+  price?: boolean
   concert?: boolean | Prisma.ConcertDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -595,6 +683,8 @@ export type SeatSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   section?: boolean
   row?: boolean
   number?: boolean
+  type?: boolean
+  price?: boolean
   concert?: boolean | Prisma.ConcertDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["seat"]>
 
@@ -604,9 +694,11 @@ export type SeatSelectScalar = {
   section?: boolean
   row?: boolean
   number?: boolean
+  type?: boolean
+  price?: boolean
 }
 
-export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "concertId" | "section" | "row" | "number", ExtArgs["result"]["seat"]>
+export type SeatOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "concertId" | "section" | "row" | "number" | "type" | "price", ExtArgs["result"]["seat"]>
 export type SeatInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   concert?: boolean | Prisma.ConcertDefaultArgs<ExtArgs>
   orderItem?: boolean | Prisma.Seat$orderItemArgs<ExtArgs>
@@ -630,6 +722,8 @@ export type $SeatPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     section: string
     row: string
     number: number
+    type: $Enums.SeatType
+    price: number
   }, ExtArgs["result"]["seat"]>
   composites: {}
 }
@@ -1060,6 +1154,8 @@ export interface SeatFieldRefs {
   readonly section: Prisma.FieldRef<"Seat", 'String'>
   readonly row: Prisma.FieldRef<"Seat", 'String'>
   readonly number: Prisma.FieldRef<"Seat", 'Int'>
+  readonly type: Prisma.FieldRef<"Seat", 'SeatType'>
+  readonly price: Prisma.FieldRef<"Seat", 'Float'>
 }
     
 

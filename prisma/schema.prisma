@@ -20,6 +20,12 @@ enum OrderStatus {
   CANCELLED
 }
 
+enum SeatType {
+  VIP
+  GENERAL
+  PLATEA
+}
+
 enum PaymentProvider {
   STRIPE
   PAYPAL
@@ -69,14 +75,14 @@ model Seat {
   section     String
   row         String
   number      Int
+  type        SeatType
+  price       Float
 
   concert     Concert @relation(fields: [concertId], references: [id])
   orderItem   OrderItem?
 
   @@unique([concertId, section, row, number])
 }
-
-
 
 model Order {
   id        String @id @default(uuid())
@@ -87,7 +93,7 @@ model Order {
 
   user User @relation(fields: [userId], references: [id])
   concert Concert @relation(fields: [concertId], references: [id])
-  items     OrderItem[]
+  orderItem     OrderItem[]
   payment   Payment?
 
   createdAt DateTime @default(now())
