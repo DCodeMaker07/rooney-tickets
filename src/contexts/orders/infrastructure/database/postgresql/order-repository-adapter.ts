@@ -17,12 +17,34 @@ export class OrderRepositoryAdapter implements OrderRepository {
                 concertId: order.concertId,
                 status: order.status,
                 total: order.amount,
+                orderItem: {
+                    createMany: {
+                        data: order.items.map((item) => ({
+                            price: item.price,
+                            seatId: item.seatId,
+                        }))
+                    }
+                }
+            },
+            include: {
+                orderItem: {
+                    select: {
+                        id: true,
+                        price: true,
+                        seatId: true,
+                    }
+                }
             }
         });
-        
+
         return Order.entityToOrder({
             ...created,
-            total: parseInt(`${created.total}`)
+            total: parseInt(`${created.total}`),
+            items: created.orderItem.map((u) => ({
+                id: u.id,
+                price: parseInt(`${u.price}`),
+                seatId: u.seatId,
+            }))
         });
     }
     async update(order: Order): Promise<void> {
