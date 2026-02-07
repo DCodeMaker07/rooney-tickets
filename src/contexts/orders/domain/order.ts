@@ -1,3 +1,5 @@
+import { OrderItem } from "./order-item";
+
 export type OrderStatus = 'PENDING' | 'PAID' | 'CANCELLED';
 
 export class Order {
@@ -7,6 +9,7 @@ export class Order {
         public readonly concertId: string,
         public readonly amount: number,
         public status: OrderStatus,
+        public readonly items: OrderItem[],
         public readonly expiresAt: Date,
         public readonly id?: string,
         public paidAt?: Date,
@@ -15,13 +18,14 @@ export class Order {
     public static entityToOrder(input: {
         id: string;
         status: OrderStatus;
+        items: OrderItem[];
         total: number;
         createdAt: Date;
         paidAt: Date | null;
         userId: string;
         concertId: string;
     }) {
-        return new Order(input.userId, input.concertId, input.total, input.status, new Date(), input.id, input.paidAt!);
+        return new Order(input.userId, input.concertId, input.total, input.status, input.items, new Date(), input.id, input.paidAt!);
     }
 
     isExpired(now = new Date()): boolean {
@@ -35,6 +39,10 @@ export class Order {
 
         this.status = 'PAID';
         this.paidAt = new Date();
+    }
+
+    getTotalPrice() {
+        return this.items.reduce((acc, value) => acc + value.price, 0);
     }
 
 }
