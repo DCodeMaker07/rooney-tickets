@@ -11,10 +11,6 @@ export class CreateOrderDto {
     @IsString()
     concertId: string;
     
-    @IsNumber()
-    @IsPositive()
-    amount: number;
-
     @IsArray()
     @ArrayMinSize(1)
     @ValidateNested({ each: true })

@@ -7,8 +7,8 @@ export class Order {
     constructor(
         public readonly userId: string,
         public readonly concertId: string,
-        public readonly amount: number,
         public status: OrderStatus,
+        public readonly total: number,
         public readonly items: OrderItem[],
         public readonly expiresAt: Date,
         public readonly id?: string,
@@ -25,7 +25,7 @@ export class Order {
         userId: string;
         concertId: string;
     }) {
-        return new Order(input.userId, input.concertId, input.total, input.status, input.items, new Date(), input.id, input.paidAt!);
+        return new Order(input.userId, input.concertId, input.status, input.total, input.items, new Date(), input.id, input.paidAt!);
     }
 
     isExpired(now = new Date()): boolean {
