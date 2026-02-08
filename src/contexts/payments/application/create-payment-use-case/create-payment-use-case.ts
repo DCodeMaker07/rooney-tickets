@@ -1,6 +1,6 @@
 import { Injectable } from '@/common/Injectable';
 import { OrderCreatedEvent } from '@/contexts/orders/domain/order-event';
-import { Payment, PaymentGateway, PaymentRepository } from '../../domain';
+import { Payment, PaymentGateway, PaymentRepository, PaymentStatus } from '../../domain';
 
 @Injectable()
 export class CreatePaymentUseCase {
@@ -10,22 +10,26 @@ export class CreatePaymentUseCase {
         private readonly paymentGateway: PaymentGateway,
     ) { }
 
-    async execute(input: OrderCreatedEvent): Promise<Payment> {
-
-        // Create paymentIntent in payment external service
-        const intent = await this.paymentGateway.createPayment({ amount: input.amount, orderId: input.orderId });
-
+    async execute(input: OrderCreatedEvent) {
         // Persist payment
-        const payment = new Payment(
+        const paymentObject = new Payment(
             input.orderId,
             input.provider,
-            input.externalId ?? '',
+            '',
             'PENDING',
             input.amount,
             input.currency ?? 'USD',
         );
+        
+        const paymentCreated = await this.PaymentRepository.create(paymentObject);
 
-        return this.PaymentRepository.create(payment);
+        // Create paymentIntent in payment external service
+        const paymentExternal = await this.paymentGateway.createPayment({ amount: input.amount, orderId: input.orderId, paymentId: paymentObject.id! });
+    
+        return {
+            provider: paymentCreated.provider,
+            clientSecret: paymentExternal.clientSecret,
+        };
     }
 
 }
