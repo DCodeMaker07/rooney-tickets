@@ -103,11 +103,11 @@ model Order {
 
 model OrderItem {
   id        String @id @default(uuid())
-  orderId   String
   seatId    String @unique
   price     Decimal
 
-  order Order @relation(fields: [orderId], references: [id])
+  order Order? @relation(fields: [orderId], references: [id])
+  orderId   String?
   seat Seat @relation(fields: [seatId], references: [id])
 }
 
