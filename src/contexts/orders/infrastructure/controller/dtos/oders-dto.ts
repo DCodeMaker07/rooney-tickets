@@ -1,5 +1,5 @@
 import { OrderItem } from "@/contexts/orders/domain/order-item";
-import { ArrayMinSize, IsArray, IsNumber, IsPositive, IsString, ValidateNested } from "class-validator";
+import { ArrayMinSize, IsArray, IsString, ValidateNested } from "class-validator";
 import { Type } from 'class-transformer'
 import { OrderItemDto } from "./order-item-dto";
 
