@@ -1,12 +1,11 @@
-import { Body, Controller, Get, Param, Post, Req, Res } from "@nestjs/common";
-import { CreatePaymentUseCase } from "@/contexts/payments/application/create-payment-use-case/create-payment-use-case";
+import { Controller, Post, Req, Res } from "@nestjs/common";
 import { OnEvent } from "@nestjs/event-emitter";
 import { envs } from "@/config/envs";
 import type { Request, Response } from 'express';
 import Stripe from "stripe";
 import { CreatePaymentSessionDto } from "./dto/create-payment-session-dto";
 import { StripeService } from '../services/stripe/stripe.service';
-import { UpdatePaymentUseCase } from "../../application/update-payment-use-case/update-payment-use-case";
+import { CreatePaymentUseCase, UpdatePaymentUseCase } from "../../application";
 
 @Controller('payments')
 export class PaymentController{
@@ -40,12 +39,16 @@ export class PaymentController{
             return;
         }
 
-        // console.log({event});
-
-        // console.info(event.data);
+        
 
         if(event.type === 'payment_intent.succeeded') {
-            await this.updatePaymentUseCase.execute({
+
+            const orderId   = event.data.object.metadata.orderId;
+            const paymentId = event.data.object.metadata.paymentId;
+
+            orderId && await this.updatePaymentUseCase.execute({
+                orderId,
+                paymentId,
                 externalId: event.data.object.id,
                 paymentMethod: event.data.object.payment_method![0],
                 provider: 'STRIPE',
