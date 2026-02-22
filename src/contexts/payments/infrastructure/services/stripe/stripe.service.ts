@@ -15,11 +15,11 @@ export class StripeService {
         return this.stripe;
     }
 
-    createPaymentIntent(amount: number, orderId: string) {
+    createPaymentIntent(amount: number, orderId: string, paymentId: string) {
         return this.stripe.paymentIntents.create({
             amount,
             currency: 'usd',
-            metadata: { orderId },
+            metadata: { orderId, paymentId },
         });
     }
 

@@ -8,9 +8,9 @@ export class StripePaymentGatewayAdapter implements PaymentGateway {
     constructor(
         private readonly stripeService: StripeService,
     ) { }
-    async createPayment(input: { orderId: string; amount: number; metadata?: Record<string, string> }): Promise<{ externalId: string; status: string, clientSecret: string }> {
+    async createPayment(input: { orderId: string; amount: number; metadata?: Record<string, string>, paymentId: string }): Promise<{ externalId: string; status: string, clientSecret: string }> {
 
-        const intent = await this.stripeService.createPaymentIntent(input.amount, input.orderId);
+        const intent = await this.stripeService.createPaymentIntent(input.amount, input.orderId, input.paymentId);
 
         return {
             externalId: intent.id,
