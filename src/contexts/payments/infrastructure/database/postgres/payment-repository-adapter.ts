@@ -3,6 +3,7 @@ import { Payment } from "@/contexts/payments/domain/payment";
 import { PaymentRepository } from "@/contexts/payments/domain/payment-repository-port";
 import { PrismaService } from "@/prisma/prisma.service";
 import { NotFoundException } from "@nestjs/common";
+import { UpdatePaymentInput } from "./inputs/update-payment-input";
 
 @Injectable()
 export class PaymentRepositoryAdapter implements PaymentRepository {
@@ -32,9 +33,10 @@ export class PaymentRepositoryAdapter implements PaymentRepository {
         });
 
     }
-    async update(payment: Payment): Promise<void> {
+    async update(payment: UpdatePaymentInput): Promise<void> {
+
         await this.prisma.payment.update({
-            where: { id: payment.id },
+            where: { id: payment.paymentId },
             data: {
                 status: payment.status,
                 externalId: payment.externalId,
