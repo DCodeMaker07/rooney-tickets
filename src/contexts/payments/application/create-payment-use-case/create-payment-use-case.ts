@@ -1,6 +1,6 @@
 import { Injectable } from '@/common/Injectable';
 import { OrderCreatedEvent } from '@/contexts/orders/domain/order-event';
-import { Payment, PaymentGateway, PaymentRepository, PaymentStatus } from '../../domain';
+import { Payment, PaymentGateway, PaymentRepository } from '../../domain';
 
 @Injectable()
 export class CreatePaymentUseCase {
@@ -24,7 +24,7 @@ export class CreatePaymentUseCase {
         const paymentCreated = await this.PaymentRepository.create(paymentObject);
 
         // Create paymentIntent in payment external service
-        const paymentExternal = await this.paymentGateway.createPayment({ amount: input.amount, orderId: input.orderId, paymentId: paymentObject.id! });
+        const paymentExternal = await this.paymentGateway.createPayment({ amount: input.amount, orderId: input.orderId, paymentId: paymentCreated.id! });
     
         return {
             provider: paymentCreated.provider,
