@@ -5,6 +5,7 @@ import { CreateOrderUseCase } from './application/create-order-use-case/create-o
 import { OrderRepository } from './domain/order.repository';
 import { OrderRepositoryAdapter } from './infrastructure/database/postgresql/order-repository-adapter';
 import { OrdersController } from './infrastructure/controller/orders.controller';
+import { UpdateOrderUseCase } from './application';
 
 @Module({
     controllers: [OrdersController],
@@ -12,6 +13,7 @@ import { OrdersController } from './infrastructure/controller/orders.controller'
     providers: [
         PrismaService,
         CreateOrderUseCase,
+        UpdateOrderUseCase,
         OrderRepositoryAdapter,
         {
             provide: OrderRepository,
