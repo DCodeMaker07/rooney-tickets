@@ -1,4 +1,5 @@
 import { Injectable } from "@/common/Injectable";
+import { UpdateOrderInput } from "@/contexts/orders/application/update-order-use-case/update-order-input";
 import { Order } from "@/contexts/orders/domain/order";
 import { OrderRepository } from "@/contexts/orders/domain/order.repository";
 import { PrismaService } from "@/prisma/prisma.service";
@@ -62,11 +63,34 @@ export class OrderRepositoryAdapter implements OrderRepository {
         });
 
     }
-    async update(order: Order): Promise<void> {
-        throw new Error("Method not implemented.");
+    async update(order: UpdateOrderInput): Promise<void> {
+
+        const orderDB = await this.findOne(order.orderId);
+
+        if(!orderDB) throw new NotFoundException(`Order with id: [${order.orderId}] not found`);
+
+        await this.prisma.order.update({
+            where: { id: order.orderId },
+            data: {
+                status: order.status,
+                paidAt: order.paidAt,
+            }
+        });
+
     }
+
     async findById(id: string): Promise<Order | null> {
         throw new Error("Method not implemented.");
+    }
+
+    private async findOne(orderId: string) {
+
+        return await this.prisma.order.findFirst({
+            where: {
+                id: orderId
+            }
+        })
+
     }
 
 }
