@@ -3,6 +3,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { PaymentModule } from './contexts/payments/infrastructure/payment.module';
 import { QueueModule } from './contexts/queue/infrastructure/queue.module';
 import { OrdersModule } from './contexts/orders/orders.module';
+import { AuthModule } from './contexts/auth/auth.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { OrdersModule } from './contexts/orders/orders.module';
     OrdersModule,
     PaymentModule,
     QueueModule,
+    AuthModule
   ],
   controllers: [],
   providers: [],
