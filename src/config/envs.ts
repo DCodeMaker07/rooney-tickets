@@ -10,6 +10,7 @@ interface EnvVars {
     STRIPE_SECRET_KEY       : string;
     STRIPE_PUBLIC_KEY       : string;
     STRIPE_ENDPOINT_SECRET  : string;
+    JWT_SECRET              : string;
 }
 
 const envsSchema = joi.object({
@@ -19,7 +20,8 @@ const envsSchema = joi.object({
     REDIS_URL: joi.string().required(),
     STRIPE_SECRET_KEY: joi.string().required(),
     STRIPE_PUBLIC_KEY: joi.string().required(),
-    STRIPE_ENDPOINT_SECRET: joi.string().required()
+    STRIPE_ENDPOINT_SECRET: joi.string().required(),
+    JWT_SECRET: joi.string().required(),
 })
 .unknown(true)
 
@@ -39,4 +41,5 @@ export const envs = {
     stripeSecretKey: envVars.STRIPE_SECRET_KEY,
     stripePublicKey: envVars.STRIPE_PUBLIC_KEY,
     stripeEndpointSecret: envVars.STRIPE_ENDPOINT_SECRET,
+    jwtSecret: envVars.JWT_SECRET,
 }
